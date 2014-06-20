@@ -1,0 +1,92 @@
+	%%%
+	%%% V7
+	%%%
+
+	\subsection{Polymorphismus in Haskell} % (fold)
+	\label{sub:polymorphismus_in_haskell}
+		\begin{itemize}
+			\item parametrischen über Typvariablen
+			\item ad-hoc übr Typklassen
+		\end{itemize}
+
+		\subsubsection*{Unterschied} % (fold)
+		\label{ssub:unterschied}
+			\begin{tabular}{lcp{8cm}}
+				ad-hoc & $\equiv$ & derselbe Name für unterschiedliche Algorithmen\\
+				parametrischer & $\equiv$ & derselbe Name für den gleichen Algorithmus, also ein Algorithmus für alle Typen
+			\end{tabular}
+		% subsubsection unterschied (end)
+
+		\subsubsection*{Beispiel parametrischer Polymorphismus} % (fold)
+		\label{ssub:beispiel_parametrischer_polymorphismus}
+			\lstHaskell
+			\begin{lstlisting}
+length :: [a] -> Int
+length [] = 0
+length (_:l) = 1 + length l
+			\end{lstlisting}
+		% subsubsection beispiel_parametrischer_polymorphismus (end)
+	% subsection polymorphismus_in_haskell (end)
+
+	\subsection{Weltveränderung} % (fold)
+	\label{sub:weltveraenderung}
+		\lstHaskell
+		\begin{lstlisting}[morekeywords={sgetLine}]
+sgetLine :: IO String
+		\end{lstlisting}
+		\lstHaskell
+		\begin{lstlisting}
+p :: IO a
+q :: IO b
+p >> q :: IO b
+p >> q = \w -> let (a,w') = p w
+                   (b,w'') = q w'
+               in (b,w'')
+		\end{lstlisting}
+		Was nichts anderes ist als
+		\lstHaskell
+		\begin{lstlisting}
+p >> q = q.snd.p
+		\end{lstlisting}
+		\lstHaskell
+		\begin{lstlisting}
+getChar :: IO Char
+putChar :: Char -> IO ()
+		\end{lstlisting}
+		\lstHaskell
+		\begin{lstlisting}
+(>>=) :: IO a -> (a -> IO b) -> IO b
+p :: IO a
+f :: a -> IO a
+
+p >>= f :: IO b
+p >>= f = \w -> let (a,w') = p w
+                    (b,w'') = w'
+                in (b,w'')
+		\end{lstlisting}
+		\lstHaskell
+		\begin{lstlisting}
+do {a; b} == do a
+                b
+		\end{lstlisting}
+		\lstHaskell
+		\begin{lstlisting}
+{f;g;}h; != f;{g;h;}
+		\end{lstlisting}
+		\lstHaskell
+		\begin{lstlisting}
+data Ampel = Rot
+           | Gelb
+           | Gruen
+data Tree a = Nil |
+              Node a Tree Tree
+		\end{lstlisting}
+		\lstHaskell
+		\begin{lstlisting}[mathescape]
+IO (\w -> ((),w)) $\equiv$ IO \$ \w -> ((),w)
+		\end{lstlisting}
+	% subsection weltveraenderung (end)
+
+	%%%
+	%%% end V7
+	%%%

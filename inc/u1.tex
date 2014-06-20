@@ -1,0 +1,156 @@
+	\subsection{Übung 1} % (fold)
+	\label{sub:uebung_1}
+	Die behandelten Shell-Programme und Funktionen sind meist nur lose augelistet. Genaue Informationen
+	lassen sich über die Man-Pages erfahren.
+
+	\lstShell[print working directory]
+	\begin{lstlisting}
+$ pwd
+	\end{lstlisting}
+
+	\lstShell[Weitere Shell-Programme zur Dateiverwaltung]
+	\begin{lstlisting}
+cd, ls, exit, mkdir, rm, touch, cp, mv
+	\end{lstlisting}
+
+	\subsubsection*{Verzeichnisse im Unix-Dateisystem} % (fold)
+	\label{ssub:verzeichnisse_im_unix_dateisystem}
+
+	\begin{tabular}{ll}
+		\texttt{/tmp} 			& Temporär\\
+		\texttt{/dev} 			& devices\\
+		\texttt{/usr} 			& unix system resources\\
+		\texttt{(usr/local)} 	& Programme (nicht immer vorhanden)\\
+		\texttt{/bin} 			& Binärdaten\\
+		\texttt{/home} 			& \multirow{2}{*}{User data}\\
+		\texttt{/users} 		&\\
+		\texttt{/dev/hda}		& \multirow{2}{*}{Drives}\\
+		\texttt{/dev/sda}		&\\
+		\texttt{dev/tty}		& Terminals\\
+		\texttt{dev/null}		& Garbage
+	\end{tabular}
+
+	% subsubsection verzeichnisse_im_unix_dateisystem (end)
+
+	\subsubsection*{Verzeichnisnavigation} % (fold)
+	\label{ssub:verzeichnisnavigation}
+
+	Pfade, die mit einem \texttt{/} beginnen, sind absolut, alle anderen sind relativ.
+	
+	\lstShell
+	\begin{lstlisting}
+$ cd ~  # home directory
+$ cd -  # go back
+$ cd .. # go up
+	\end{lstlisting}
+
+	% subsubsection verzeichnisnavigation (end)
+
+	\lstShell[Aufruf Man-Page (Handbuch) von \texttt{myCommand}]
+	\begin{lstlisting}
+$ man myCommand
+	\end{lstlisting}
+
+	\lstShell[Suche nach \texttt{term}]
+	\begin{lstlisting}
+$ apropos term
+	\end{lstlisting}
+
+	\lstShell[word count in \texttt{file} (auch mehr als Worte)]
+	\begin{lstlisting}
+$ wc file
+	\end{lstlisting}
+
+	\subsubsection*{Dateiberechtigungen} % (fold)
+	\label{ssub:dateiberechtigungen}
+	
+	\begin{tabular}{lllll}
+		\texttt{d} 	& \texttt{rwx} 	& \texttt{rwx} 	& \texttt{rwx} 	& \texttt{n}\\
+		Typ			& user 			& group 		& other 		& Verzeichnisanzahl
+	\end{tabular}\\
+
+	Dabei kann der Typ folgendes sein:
+
+	\begin{tabular}{ll}
+		\texttt{d} 	& Directory\\
+		\texttt{l} 	& Link\\
+		\texttt{p} 	& named Pipe\\
+		\texttt{-} 	& File\\
+		\texttt{c} 	& Character Device\\
+		\texttt{b} 	& Block Device
+	\end{tabular}
+
+	% subsubsection dateiberechtigungen (end)
+
+	\subsubsection*{Dateilinks erstellen} % (fold)
+	\label{ssub:dateilinks_erstellen}
+	
+	\begin{figure}[hp]
+		\caption{Hartlink über \texttt{ln}}
+		\includegraphics[width=\textwidth]{workfiles/u1_1}
+	\end{figure}
+	
+	\begin{figure}[hp]
+		\caption{Softlink über \texttt{ln -s}}
+		\includegraphics[width=\textwidth]{workfiles/u1_2}
+	\end{figure}
+
+	Löscht man \texttt{Original} kann über \texttt{Kopie} noch auf die Datei zugegriffen werden, ein
+	Aufruf von \texttt{Softlink} führt allerdings zu Fehlern.
+
+	% subsubsection dateilinks_erstellen (end)
+
+	\subsubsection*{Dateisysteme} % (fold)
+	\label{ssub:dateisysteme}
+	
+	\lstShell[Ein-/Aushängen von Dateisystemen]
+	\begin{lstlisting}
+$ mount
+$ umount
+	\end{lstlisting}
+
+	\lstShell[Speicherverbrauch anzeigen]
+	\begin{lstlisting}
+$ du	# Festplattenplatzverbrauch in Byte
+$ df	# liefert zusaetzliche Details
+	\end{lstlisting}
+
+	\lstShell[Ändern von Dateiberechtigungen]
+	\begin{lstlisting}
+$ chmod u=rwx file
+$ chmod u-r file
+$ chmod u+r file
+$ chmod 600 file
+	\end{lstlisting}
+	
+	Bei obiger Darstellung ist \texttt{u} die Kennzeichnung für den aktuellen User, möglich ist auch
+	\texttt{g} (Group), \texttt{o} (other) oder \texttt{a} (alle).
+
+	Per Zuweisungen können alle	Permutationen von \texttt{rwx} vergeben werden. Oder per \texttt{-/+} einzelne
+	Rechte bearbeitet werden.
+
+	Eine direkte Angaabe als Zahlwert ist ebenfalls möglich. Für jede Nutzerklasse bildet man die Summe
+	aus read (4), write (2) und execute (1).
+
+	\lstShell[Ändern von Dateibesitzern]
+	\begin{lstlisting}
+$ chown user file
+$ chown user:group file
+	\end{lstlisting}
+
+	% subsubsection dateisysteme (end)
+
+	\subsubsection*{Wildcards in der Shell} % (fold)
+	\label{ssub:wildcards_in_der_shell}
+
+	\begin{tabular}{ll}
+		\texttt{*} 	& beliebige Zeichenfolge\\
+		\texttt{?} 	& beliebiges Zeichen\\
+		\texttt{[abcD]} 	& \multirow{2}{*}{\underline{ein} Zeichen aus der Gruppe}\\
+		\texttt{[a-z]} 	&\\
+		\texttt{\{a,b\}} 	& Aufzählung von Pattern\\
+	\end{tabular}
+
+	% subsubsection wildcards_in_der_shell (end)
+
+	% subsection uebung_1 (end)

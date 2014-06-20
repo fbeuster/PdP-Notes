@@ -1,0 +1,49 @@
+
+
+	Themen der Vorlesung:
+	\begin{itemize}
+		\item Shellprogrammierung
+		\item Standardtools
+		\item Fallstudie DZNE sensor based monitoring
+	\end{itemize}
+
+	\subsection{Shells und Tools} % (fold)
+	\label{sub:shells_und_tools}
+
+		\texttt{numbers.dat} enthält $793\cdot10^8$ Zahlen, \texttt{summary} rechnet Werte
+		spaltenweise aus
+
+		
+		\lstShell[Einfache Eingabeumleitung]
+		\begin{lstlisting}
+$ cp summary < numbers.dat
+		\end{lstlisting}
+
+		\lstShell[1. Zeile auslassen, da bspw. Kommentar]
+		\begin{lstlisting}
+$ tail -1 < numbers.dat | summary
+		\end{lstlisting}
+
+		Problem bei \texttt{tail} und anderen Pipeline-Operationen:\\
+		Es laufen 2 Programme,  alle Daten durchlaufen die CPU zweimal, problematisch auf
+		Single Core\\
+
+		Shell-Skript (siehe Foliensatz) besser geeignet. Aufruf dann wieder:
+
+		\lstShell
+		\begin{lstlisting}
+$ buttfirst.sh < numbers.dat
+		\end{lstlisting}
+
+		Eine gesonderte Berücksichtigung der Standardeingabe/-ausgabe muss nicht durch das
+		Programm erfolgen
+
+		\subsubsection*{Fallstudie: DZNE sensor based monitoring} % (fold)
+		\label{ssub:fallstudie_dzne_sensor_based_monitoring}
+		% subsubsection fallstudie_dzne_sensor_based_monitoring (end)
+	
+	% subsection shells_und_tools (end)
+
+	%%%%
+	%%%% end V1
+	%%%%

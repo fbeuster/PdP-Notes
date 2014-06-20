@@ -1,0 +1,94 @@
+\documentclass[11pt,a4paper]{scrartcl}
+
+% language
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}	% Deutsches Paket
+
+% Math
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+%tables
+\usepackage{multirow}
+
+% graphics
+\usepackage[usenames,dvipsnames]{color}	
+\usepackage{xcolor}	
+\definecolor{gray}{rgb}{0.96,0.96,0.96}
+\definecolor{ngray}{rgb}{0.16,0.16,0.8}
+\definecolor{shell_key}{HTML}{333399}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{arrows,matrix,shapes,trees}
+
+% conding
+\usepackage{listings}
+\usepackage{microtype}
+\usepackage{caption}
+\input{inc/env}
+
+% other
+\usepackage{enumerate}
+\usepackage{xifthen}
+
+\title{Paradigmen der Programmierung}
+\subtitle{Vorlesungsnotizen bis 21.05.2014}
+\author{Felix Beuster}
+\date{}
+\begin{document}
+\setlength{\parindent}{0ex}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section*{Vorwort} % (fold)
+\label{sec:vorwort}
+\addcontentsline{toc}{section}{Vorwort}
+
+	Hierbei handelt es sich um meine digitalisierten Mitschriften aus der Vorlesung Paradigmen der
+	Programmierung. Diese Sammlung erhebt keinen Anspruch auf Vollständigkeit, Korrekturhinweise
+	und Erweiterungsvorschläge seitens der Kommilitonen sind gerne gesehen.
+
+% section vorwort (end)
+
+\section{Shellprogrammierung} % (fold)
+\label{sec:shellprogrammierung}
+	\input{inc/shellProg_shellsTools} % 1. VL
+	\include{inc/shellProg_processGlue} % 2.-3. VL
+	\include{inc/shellProg_pipes} 		% 4.-5. VL
+	\include{inc/shellProg_bash} 		% 5.-6. VL
+% section shellprogrammierung (end)
+
+\clearpage
+\section{Monaden und Interaktive Programme} % (fold)
+\label{sec:monaden_und_interaktive_programme}
+	\input{inc/monad_inter} % 7. VL
+
+
+% section monaden_und_interaktive_programme (end)
+
+\clearpage
+\appendix
+\section{Übungen} % (fold)
+\label{sec:uebungen}
+	\input{inc/u1} % 1. Ub
+
+	\subsection{Übung 2} % (fold)
+	\label{sub:uebung_2}
+
+	
+	
+	% subsection uebung_2 (end)
+
+
+
+% section uebungen (end)
+
+
+\end{document}
+
+% http://tex.stackexchange.com/questions/40682/define-a-new-caption-in-a-listing-environment
+% http://www.golatex.de/verschiedene-beschriftungen-mit-listing-t3880.html
