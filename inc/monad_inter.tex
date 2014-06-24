@@ -85,8 +85,81 @@ data Tree a = Nil |
 		\begin{lstlisting}[mathescape]
 IO (\w -> ((),w)) $\equiv$ IO \$ \w -> ((),w)
 		\end{lstlisting}
+
+		%%%
+		%%% end V7
+		%%%
+		%%%
+		%%% V8
+		%%%
+
+		\lstHaskell
+		\begin{lstlisting}
+-- generisch
+MState s a
+
+-- konkret
+MS (\x -> (x,17))
+
+-- und damit Typ
+MState s Int
+		\end{lstlisting}
+
+		\lstHaskell
+		\begin{lstlisting}
+bla = MS (\x -> (x,17))
+(runMState bla) :: s -> (s,Int)
+		\end{lstlisting}
+
+		\lstHaskell[Mitzählen von \texttt{getc} als Aktion, aber keine Auslieferung]
+		\begin{lstlisting}
+getc = \s -> (s+1,s)
+		\end{lstlisting}
+
+		\lstHaskell[Zähler zurücksetzen]
+		\begin{lstlisting}
+put = \s' -> MS $ \s -> (s',s)
+		\end{lstlisting}
+
+		\lstHaskell[Kurzform vereinfacht Nutzung und Schachtelung]
+		\begin{lstlisting}
+-- Langform
+MState s a
+
+-- Kurzform
+m a
+
+-- Nutzung
+instance Monad m where
+		\end{lstlisting}
+
+		\lstHaskell[detaillierte Aufschlüsselung anhand von \texttt{get >>= put}]
+		\begin{lstlisting}
+get = MS (\s -> (s,s))
+put = \s' -> MS (\s -> (s',s))
+runMState (MS f) = f
+
+get >>= put
+
+MS (\s -> let (s',a) = runMState (MS (\s -> (s,s))) s
+          in runMState (put s) s')
+MS (\s -> let (s',a) = (\s -> (s,s)) s
+          in runMState (put s) s')
+MS (\s -> let (s',a) = (s,s)
+          in runMState (put s) s')
+MS (\s -> runMState (put s) s)
+MS (\s -> runMState (MS (\s -> (s,s))) s)
+MS (\s -> (\s -> (s,s)) s)
+MS (\s -> (s,s))
+		\end{lstlisting}
+		
+		\begin{figure}[ht]
+			\caption{Realisierung Verkettung äußerer mit innerer Monade}
+			\includegraphics[width=\textwidth]{workfiles/v8_1}
+		\end{figure}
+
 	% subsection weltveraenderung (end)
 
 	%%%
-	%%% end V7
+	%%% end V8
 	%%%
