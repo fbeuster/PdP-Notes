@@ -82,8 +82,8 @@ data Tree a = Nil |
               Node a Tree Tree
 		\end{lstlisting}
 		\lstHaskell
-		\begin{lstlisting}[mathescape]
-IO (\w -> ((),w)) $\equiv$ IO \$ \w -> ((),w)
+		\begin{lstlisting}
+IO (\w -> ((),w)) == IO $ \w -> ((),w)
 		\end{lstlisting}
 
 		%%%
@@ -332,3 +332,26 @@ putStrt = liftST putStr
 	%%%
 	%%% end V9
 	%%%
+
+	%%%
+	%%% V10
+	%%%
+
+	Wir haben
+
+	\lstHaskell
+	\begin{lstlisting}
+(StateT s m) a
+(MaybeT m) a
+	\end{lstlisting}
+
+	wollen nun IO-Monaden erweitern, um auch Berechnung abbrechen zu können
+
+	\lstHaskell
+			\lstset{
+				moredelim=**[is][{\bbHL[Monade]}]{_}{_},
+				moredelim=**[is][{\bbHL[Monade]}]{@}{@},
+			}
+	\begin{lstlisting}
+@MaybeT _(StateT s IO)_@ a
+	\end{lstlisting}
