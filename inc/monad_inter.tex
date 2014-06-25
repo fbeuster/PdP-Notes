@@ -163,3 +163,172 @@ MS (\s -> (s,s))
 	%%%
 	%%% end V8
 	%%%
+
+	%%%
+	%%% V9
+	%%%
+
+	\newpage
+	\subsection{Detailliertes Herleitungsbeispiel} % (fold)
+	\label{sub:detailliertes_herleitungsbeispiel}
+	
+		\lstHaskell[allgemeine Monade]
+		\begin{lstlisting}
+type IO a = World -> (World,a)
+		\end{lstlisting}
+
+		\lstHaskell[Welt mit einer Int-Zahl]
+		\begin{lstlisting}
+type IntW = (Int, World)
+		\end{lstlisting}
+
+		\lstHaskell[Monade mit dieser Welt]
+		\begin{lstlisting}
+type IIO a = IntW -> (IntW,a)
+		\end{lstlisting}
+
+		\subsubsection{Inkrement} % (fold)
+		\label{ssub:inkrement}
+		
+			\lstHaskell
+			\begin{lstlisting}
+inc :: IIO Int -- Rueckgabe Int beliebig
+inc = \(i,w) -> ((i+1,w),i)
+			\end{lstlisting}
+
+		% subsubsection inkrement (end)
+
+		\subsubsection{putString} % (fold)
+		\label{ssub:putstring}
+		
+			\lstHaskell
+			\begin{lstlisting}
+putStrI :: String -> IIO ()
+putStr :: String IO ()
+putStrI = \s -> \(i,w) -> let (w',a) = putStr s w
+                          in ((i+1,w'),a)
+			\end{lstlisting}
+
+		% subsubsection putstring (end)
+
+		\subsubsection{Problem der unerreichbaren Welt} % (fold)
+		\label{ssub:problem_der_unerreichbaren_welt}
+
+			Problem: Kommen nicht an \texttt{w} heran\\
+			Ziel: Eleminierung von \texttt{w} als Argument, kennen wir bereits von der Verkettung:
+
+			\begin{flalign*}
+(f\circ g) (x) = f(g(x))
+			\end{flalign*}
+
+			\lstHaskell[vom Mathematischen zum Quellcode]
+			\begin{lstlisting}[mathescape]
+pq = \x -> p(q(x))
+pq = p $\circ$ q -- pointless function definition
+			\end{lstlisting}
+
+			\lstHaskell[Umbauen]
+			\begin{lstlisting}
+type IIO a = (Int,World) -> ((Int,World),a)
+           = Int -> World -> ((Int,World),a) -- Curryfizierung
+           = Int -> World -> (World,(Int,a)) -- Umsortierung
+           = Int -> IO (Int,a)
+			\end{lstlisting}
+		
+		% subsubsection problem_der_unerreichbaren_welt (end)
+
+		\subsubsection{return} % (fold)
+		\label{ssub:return}
+
+			\lstHaskell
+			\begin{lstlisting}
+return :: a -> IO a
+return i = \w -> (w,i)
+			\end{lstlisting}
+		
+		% subsubsection return (end)
+
+		\subsubsection{Inkrement, neu} % (fold)
+		\label{ssub:inkrement_neu}
+		
+			\lstHaskell
+			\begin{lstlisting}
+inc :: IIO Int
+inc :: Int -> World -> (World,(Int,Int))
+inc i w = (w,(i+1,i+1))
+inc i = \w -> (w,(i+1,i+1))
+--      :: IO (Int,Int)
+      = return (i+1,i+1)
+			\end{lstlisting}
+
+		% subsubsection inkrement_neu (end)
+
+		\subsubsection{putStrI, neu} % (fold)
+		\label{ssub:putstri_neu}
+		
+			\lstHaskell
+			\lstset{
+				moredelim=**[is][{\btHL[p]}]{@}{@},
+				moredelim=**[is][{\bbHL[f]}]{_}{_},
+			}
+			\begin{lstlisting}
+putStrI :: String -> IIO ()
+putStrI :: String -> Int -> World -> (World,(Int,()))
+putStrI s = \i -> \w -> let (w',a) = putStr s w
+                        in (w',(i+1,a))
+putStrI s = \i -> \w -> let (w',a) = putStr s w
+                        in return (i+1,a) w'
+putStrI s = \i -> \w -> let (w',a) = @putStr s@ w
+                        in _(\x -> return (i+1,x))_ a w'
+putStrI s = \i -> outStr s >>= (\x -> return (i+1,x))
+			\end{lstlisting}
+
+		% subsubsection putstri_neu (end)
+
+		\subsubsection{Verkettung} % (fold)
+		\label{ssub:verkettung}
+		
+			\lstHaskell
+			\lstset{
+				moredelim=**[is][{\btHL[p]}]{@}{@},
+				moredelim=**[is][{\bbHL[f]}]{_}{_},
+			}
+			\begin{lstlisting}
+(>>) :: IIO a -> IIO b -> IIO b
+ia >> ib = \i -> \w = let (w',ria) = @ia i@ w
+                      in _ib_ ria w'
+ia >> ib = \i -> ia >>= ib
+			\end{lstlisting}
+
+		% subsubsection verkettung (end)
+
+		\subsubsection{Verfeinerung Typdefinition} % (fold)
+		\label{ssub:verfeinerung_typdefinition}
+		
+			\lstHaskell
+			\begin{lstlisting}
+type IIO a = Int -> IO (Int,a)
+type IIO s a = s -> IO (s,a)
+type IIO s m a = s -> m (s,a)
+type ST s m a = s -> m (s,a)
+			\end{lstlisting}
+
+		% subsubsection verfeinerung_typdefinition (end)
+
+		\subsubsection{putStrt} % (fold)
+		\label{ssub:putstrt}
+		
+			\lstHaskell
+			\begin{lstlisting}
+putStrt :: StateT Int IO a
+putStrt = liftST putStr
+          liftST (putStr " ") >> liftST (print)
+			\end{lstlisting}
+
+		% subsubsection putstrt (end)
+
+	% subsection detailliertes_herleitungsbeispiel (end)
+
+	%%%
+	%%% end V9
+	%%%
