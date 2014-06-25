@@ -1,0 +1,118 @@
+	\subsection{Übung 2} % (fold)
+	\label{sub:uebung_2}
+
+		\lstShell[ohne versteckte Dateien]
+		\begin{lstlisting}
+$ du -s * | sort -n -r
+		\end{lstlisting}
+
+		\lstShell[alle Dateien]
+		\begin{lstlisting}
+$ du -d 1 | sort -n -r
+		\end{lstlisting}
+
+		\lstShell[Filter]
+		\begin{lstlisting}
+cat, cut, tr, wc, more, sort, uniq, grep
+		\end{lstlisting}
+
+		\lstShell
+		\begin{lstlisting}
+grep [optionen] suchstring [dateien]
+		\end{lstlisting}
+
+		\lstShell[Reguläre Ausdrücke]
+		\begin{lstlisting}
+\         # Escapezeichen
+
+## Zeichen
+[AaBbCc]  # 1 Zeichen muss treffen
+[a-z]
+[^a-z]    # alles außer...
+
+# Position/Gruppierung
+^bar      # Zeilenanfang
+\<foo\>   # Wortanfang/Wortende
+\(\)      # Zusammenfassung
+t1|t2     # Alternativen
+
+## Multiplikatoren
+.         # beliebiges Zeichen
+.+        # min. 1 mal
+.*        # beliebig oft
+.?        # 0 oder 1 mal
+.{n}      # n-fache Wiederholung
+.{n,m}    # von n bis m
+.{n,}     # min n mal
+		\end{lstlisting}
+
+		\lstShell[\texttt{sed}]
+		\begin{lstlisting}
+sed "s/welt/neue_welt/"
+# sed "optionen1/pattern/ersetzung/optionen2"
+		\end{lstlisting}
+		Dabei kann \texttt{optionen2} z.B eines der Folgenden sein
+
+		\lstShell
+		\begin{lstlisting}
+i  # ignore case
+g  # global; für ganze Eingabe
+		\end{lstlisting}
+
+		\subsubsection{Shellskript} % (fold)
+		\label{ssub:shellskript}
+
+			\lstBash[1. Zeile]
+			\begin{lstlisting}
+#!/bin/bash
+			\end{lstlisting}
+
+			\lstBash[Nutzung von Parametern]
+			\begin{lstlisting}
+$#         # Anzahl Parameter
+$1 ... $n  # Parameter n
+$*         # alle Parameter als ein String
+$@         # einlesen als Array
+$0         # Programmname
+$?         # Rückgabe letztes Shell-Kommando
+			\end{lstlisting}
+
+			\lstBash[Parameter von \texttt{test}]
+			\begin{lstlisting}
+-f  # Pfad
+-e  # exists
+-r  # Leserechte
+-h  # Symbollink
+-d  # Verzeichnis
+!   # Negation
+-z  # Länge Zeichenkette 0
+-n  # Länge Zeichenkette > 0
+			\end{lstlisting}
+
+			\lstBash[\texttt{test}-Beispiele]
+			\begin{lstlisting}
+1 -lt 2  # 1 kleiner 2 ?
+         # le, gt, ge, ne, eq
+zk1 = zk2  # gleich?
+zk1 != zk2 # ungleich?
+			\end{lstlisting}
+
+			\lstBash[Fallunterscheidung]
+			\begin{lstlisting}
+case $1 in
+	-a)
+		echo
+		;;
+	-b|-c)
+		echo
+		;;
+	-*)
+		echo
+		;;
+esac
+			\end{lstlisting}
+			Weitere Schleifenmöglichkeiten sind \texttt{for}, \texttt{while} und \texttt{until}
+		
+		% subsubsection shellskript (end)
+
+	% subsection uebung_2 (end)
