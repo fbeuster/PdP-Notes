@@ -1,0 +1,168 @@
+	%%%
+	%%% V10
+	%%%
+
+	Alte Sprachen, die auch heute noch in Verwendung sind, sind vor allem \textbf{Lisp} und
+	\textbf{COBOL}. Neuere Sprachen, wie bspw. \textbf{Swift}, haben Züge von Lisp.
+	\begin{flalign*}
+		 \left.\begin{array}{c}
+		 	\text{Emacs}\\
+		 	\text{AutoCAD}\\
+		 	\text{InterleatTPS}\\
+		 	\text{R}
+		 \end{array}\right\}\text{ bauen auf Lisp auf}
+	\end{flalign*}
+
+	\lstLisp[Auswertung des Ausdrucks durch \texttt{'} verhindern]
+	\begin{lstlisting}
+(quote (1 2 3)) = '(1 2 3)
+	\end{lstlisting}
+
+	\subsection{Listen-Konzept} % (fold)
+	\label{sub:listen_konzept}
+	
+		Lisp-Programme sind Listen von Symbolen und Ausdrücken.
+
+		\lstLisp[Liste in Lisp]
+		\begin{lstlisting}
+(1 2)
+		\end{lstlisting}
+
+		\lstHaskell[Liste in Haskell]
+		\begin{lstlisting}
+[1,2] == 1:2:[]
+		\end{lstlisting}
+
+		\begin{figure}[h]
+			\caption{Veranschaulichung des vorherigen Listenbeispieles}
+			\begin{center}
+				\vspace*{-15pt}
+				\rotatebox{-90}{
+					\tikzstyle{cell} = [draw,ellipse,ellipse split]
+					\tikzstyle{leaf} = [draw,circle]
+					\begin{tikzpicture}
+					  \node (1) at (0,0)  [cell]{};
+					  \node (2) at (1,-1) [leaf]{\rotatebox{90}{1}};
+					  \node (3) at (1,1)  [cell]{};
+					  \node (4) at (2,0)  [leaf]{\rotatebox{90}{2}};
+					  \node (5) at (2,2)  {};
+					  \path (1) edge [->,thick,out=-45,in=180] (2);
+					  \path (1) edge [->,thick,out=45,in=180] (3);
+					  \path (3) edge [->,thick,out=-45,in=180] (4);
+					  \path (3) edge [-|,thick,out=45,in=180] (5);
+					\end{tikzpicture}
+				}
+			\end{center}
+		\end{figure}
+		\begin{figure}[h]
+			\caption{Veranschaulichung Listenelement allgemein}
+			\begin{center}
+				\vspace*{-15pt}
+				\rotatebox{-90}{
+					\tikzstyle{cell} = [draw,ellipse,ellipse split]
+					\begin{tikzpicture}
+					  \node (1) at (0,0)  [cell]{};
+					  \node (2) at (-1,-1) {\rotatebox{90}{car}};
+					  \node (3) at (-1,1)  {\rotatebox{90}{cdr}};
+					  \path (1) edge [thick,out=225,in=0] (2);
+					  \path (1) edge [thick,out=135,in=0] (3);
+					\end{tikzpicture}
+				}
+			\end{center}
+		\end{figure}
+		\begin{figure}[h]
+			\caption{1-elementige Liste \texttt{(1)}}
+			\begin{center}
+				\vspace*{-15pt}
+				\rotatebox{-90}{
+					\tikzstyle{cell} = [draw,ellipse,ellipse split]
+					\tikzstyle{leaf} = [draw,circle]
+					\begin{tikzpicture}
+					  \node (1) at (0,0)  [cell]{};
+					  \node (2) at (1,-1) [leaf]{\rotatebox{90}{1}};
+					  \node (3) at (1,1)  {};
+					  \path (1) edge [->,thick,out=-45,in=180] (2);
+					  \path (1) edge [->,thick,out=45,in=180] (3);
+					\end{tikzpicture}
+				}
+			\end{center}
+		\end{figure}
+		
+		\begin{figure}[h]
+			\caption{Selbstreferenzen sind möglich}
+			\begin{center}
+				\vspace*{-40pt}
+				\rotatebox{-90}{
+					\tikzstyle{cell} = [draw,ellipse,ellipse split]
+					\tikzstyle{leaf} = [draw,circle]
+					\begin{tikzpicture}
+					  \node (1) at (0,0)  [cell]{};
+					  \node (2) at (1,-1) [leaf]{\rotatebox{90}{1}};
+					  \path (1) edge [->,thick,out=-45,in=180] (2);
+					  \draw (1) edge [->,thick,out=45,in=180,looseness=8] (1);
+					\end{tikzpicture}
+				}
+			\end{center}
+		\end{figure}
+		
+		\begin{figure}[h]
+			\caption{\texttt{'\#1=(\#1\# . \#1\#)}}
+			\begin{center}
+				\vspace*{-35pt}
+				\rotatebox{-90}{
+					\tikzstyle{cell} = [draw,ellipse,ellipse split]
+					\begin{tikzpicture}
+					  \node (1) at (0,0)  [cell]{};
+					  \draw (1) edge [->,thick,out=-45,in=180,looseness=8] (1);
+					  \draw (1) edge [->,thick,out=45,in=180,looseness=8] (1);
+					\end{tikzpicture}
+				}
+			\end{center}
+		\end{figure}
+		
+		\begin{figure}[h]
+			\caption{\texttt{'\#1=(1 2 3 . \#1\#)}}
+			\begin{center}
+				\vspace*{-70pt}
+				\rotatebox{-90}{
+					\tikzstyle{cell} = [draw,ellipse,ellipse split]
+					\tikzstyle{leaf} = [draw,circle]
+					\begin{tikzpicture}
+					  \node (1) at (0,0)  [cell]{};
+					  \node (2) at (1,-1) [leaf]{\rotatebox{90}{1}};
+					  \node (3) at (1,1)  [cell]{};
+					  \node (4) at (2,0) [leaf]{\rotatebox{90}{2}};
+					  \node (5) at (2,2)  [cell]{};
+					  \node (6) at (3,1) [leaf]{\rotatebox{90}{3}};
+					  \path (1) edge [->,thick,out=-45,in=180] (2);
+					  \path (1) edge [->,thick,out=45,in=180] (3);
+					  \path (1) edge [->,thick,out=-45,in=180] (2);
+					  \path (1) edge [->,thick,out=45,in=180] (3);
+					  \path (3) edge [->,thick,out=-45,in=180] (4);
+					  \path (3) edge [->,thick,out=45,in=180] (5);
+					  \path (5) edge [->,thick,out=-45,in=180] (6);
+					  \path (5) edge [->,thick,out=45,in=180,looseness=2] (1);
+					\end{tikzpicture}
+				}
+			\end{center}
+		\end{figure}
+
+	% subsection listen_konzept (end)
+
+	\clearpage
+	\subsection{Closures} % (fold)
+	\label{sub:closures}
+	
+	Umsetzung in Haskell
+
+	\lstHaskell
+	\begin{lstlisting}
+obj = let x = 1
+      in \() -> x <- x+1
+	\end{lstlisting}
+
+	% subsection closures (end)
+
+	%%%
+	%%% end V10
+	%%%

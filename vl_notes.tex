@@ -21,7 +21,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{tikz}
-\usetikzlibrary{arrows,matrix,shapes,trees}
+\usetikzlibrary{arrows,matrix,shapes,trees,backgrounds}
 
 % conding
 \usepackage{listings}
@@ -33,42 +33,8 @@
 \usepackage{enumerate}
 \usepackage{xifthen}
 
-
-\makeatletter
-\newenvironment{btHighlight}[1][]
-{\begingroup\def\bt@Highlight@par{#1}\begin{lrbox}{\@tempboxa}}
-{\end{lrbox}\bt@HL@box[\bt@Highlight@par]{\@tempboxa}\endgroup}
-
-\newcommand\btHL[1][]{%
-\begin{btHighlight}[#1]\bgroup\aftergroup\bt@HL@endenv%
-}
-\def\bt@HL@endenv{%
-\end{btHighlight}%   
-\egroup
-}
-\newcommand{\bt@HL@box}[2][]{%
-  $\overset{\text{#1}}{\overbrace{\strut\usebox{#2}}}$%
-}
-\makeatother
-
-\makeatletter
-\newenvironment{bbHighlight}[1][]
-{\begingroup\def\bb@Highlight@par{#1}\begin{lrbox}{\@tempboxa}}
-{\end{lrbox}\bb@HL@box[\bb@Highlight@par]{\@tempboxa}\endgroup}
-\newcommand\bbHL[1][]{%
-\begin{bbHighlight}[#1]\bgroup\aftergroup\bb@HL@endenv%
-}
-\def\bb@HL@endenv{%
-\end{bbHighlight}%   
-\egroup
-}
-\newcommand{\bb@HL@box}[2][]{%
-  $\underset{\text{#1}}{\underbrace{\strut\usebox{#2}}}$%
-}
-\makeatother
-
 \title{Paradigmen der Programmierung}
-\subtitle{Vorlesungsnotizen bis 18.06.2014 (ohne Lisp)}
+\subtitle{Vorlesungsnotizen bis 18.06.2014}
 \author{Felix Beuster}
 \date{}
 
@@ -83,7 +49,7 @@
 \label{sec:vorwort}
 \addcontentsline{toc}{section}{Vorwort}
 
-	Hierbei handelt es sich um meine digitalisierten Mitschriften aus der Vorlesung Paradigmen der
+	Hierbei handelt es sich um digitalisierten Mitschriften aus der Vorlesung Paradigmen der
 	Programmierung. Diese Sammlung erhebt keinen Anspruch auf Vollständigkeit, Korrekturhinweise
 	und Erweiterungsvorschläge seitens der Kommilitonen sind gerne gesehen.
 
@@ -104,6 +70,15 @@
 % section monaden_und_interaktive_programme (end)
 
 \clearpage
+\section{Lisp} % (fold)
+\label{sec:lisp}
+	\input{inc/lisp}
+
+% section lisp (end)
+
+
+
+\clearpage
 \appendix
 \section{Übungen} % (fold)
 \label{sec:uebungen}
@@ -114,6 +89,3 @@
 
 
 \end{document}
-
-% http://tex.stackexchange.com/questions/40682/define-a-new-caption-in-a-listing-environment
-% http://www.golatex.de/verschiedene-beschriftungen-mit-listing-t3880.html
