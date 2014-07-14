@@ -72,6 +72,14 @@ File *fopen(path)
 		\begin{itemize}
 			\item lokale Aufrufe schneller
 			\item andere Prozesse können Datei überschreiben
+			\item kein Systemaufruf
+			\item werden im Anwendungsprogramm selbst ausgewertet
+			\item Versuch auf Buffer zuzugreifen:
+				\begin{itemize}
+					\item wenn enthalten: gut
+					\item wenn nicht: Systemaufruf $\rightarrow$ im Buffer enthalten
+				\end{itemize}
+			\item wenn der Buffer stückchenweise ausgewertet wird ergeben sich evtl. Veränderungen und er ist nicht mehr aktuell
 		\end{itemize}
 
 		\lstCcode[Aufbau einer \texttt{FILE}-Struktur nach \texttt{fopen()}]
@@ -93,8 +101,10 @@ int open(path)
 		\end{lstlisting}
 
 		\begin{itemize}
-			\item Systemaufruf, Kernel wird angesprochen
+			\item Systemaufruf, vom Anwendungsprozess wird das Kernel angesprochen
 			\item verschiedene Prozesse können nicht gleichzeitig auf das 1. Byte zugreifen
+			\item mehrere Prozesse können auf alles weitere häppchenweise zugreifen
+			\item es kommt zu einem Kontextwechsel (?)
 		\end{itemize}
 	
 	% subsubsection systemweiter_dateiaufruf (end)
@@ -122,6 +132,29 @@ if(pid = fork()) {
 		\end{lstlisting}
 
 	% subsubsection aufruf_von_fork (end)
+	Anmerkungen zu Fork
+		\begin{itemize}
+			\item um neuen Prozess zu erzeugen
+			\begin{itemize}
+				\item neuer Eintrag (Memory Map, Prozessor State, File Descriptor)
+				\item ALLES wird vom Parent kopiert
+			\end{itemize}
+				\item wenn parent.fork() $\rightarrow$ id des childs
+		\end{itemize}
+		
+	Anmerkungen zu Exec (path)
+		\begin{itemize}
+			\item auch ohne vorheriges Fork
+			\item path
+			\begin{itemize}
+				\item[$\rightarrow$] Binärcode des Programms
+				\item[$\rightarrow$] neuer Speicherbereich
+				\item[$\rightarrow$] dort wird der Code initialisiert
+			\end{itemize}
+				\item MemoryMap um geschaltet
+				\item Zähler/Stackpointer: 0
+				\item fängt wieder von Vorne an
+		\end{itemize}
 
 	\subsubsection*{Fork und Exec am Beispiel von butfirst.sh} % (fold)
 	\label{ssub:fork_am_beispiel_von_butfirst_sh}
