@@ -15,8 +15,8 @@
 
 	%%% snippet V11
 
-	\subsection{Eigenschaften von Lips} % (fold)
-	\label{sub:eigenschaften_von_lips}
+	\subsection{Eigenschaften von Lisp} % (fold)
+	\label{sub:eigenschaften_von_lisp}
 	
 	\begin{itemize}
 		\item stateful
@@ -31,7 +31,7 @@
 		\end{tikzpicture}
 	\end{itemize}
 
-	% subsection eigenschaften_von_lips (end)
+	% subsection eigenschaften_von_lisp (end)
 
 	%%% snippet V11
 
@@ -164,121 +164,3 @@
 		\end{figure}
 
 	% subsection listen_konzept (end)
-
-	\subsection{Closures} % (fold)
-	\label{sub:closures}
-	
-	Umsetzung in Haskell
-
-	\lstHaskell
-	\begin{lstlisting}
-obj = let x = 1
-      in \() -> x <- x+1
-	\end{lstlisting}
-
-%%%
-%%% end V10
-%%%
-
-%%%
-%%% V11
-%%%
-
-		oder auch
-
-		\lstHaskell
-		\begin{lstlisting}
-f = let a = 7 in \() -> a
-		\end{lstlisting}
-
-		ein Aufruf zeigt dann Folgendes
-
-		\lstHaskell
-		\begin{lstlisting}
-f()
-> 7
-		\end{lstlisting}
-
-		\begin{figure}[hb]
-			\caption{Aufbau einer Haskell-Closure}
-			\includegraphics[width=\textwidth]{workfiles/v11_1}
-		\end{figure}
-		Hier liegt \texttt{var} liegt ausserhalb der Funktion \texttt{\textbackslash() -> a}. Die \texttt{var} müssen gültig sein.
-
-		\lstHaskell[\texttt{let} in Haskell]
-		\begin{lstlisting}
-let a = 2
-    b = 7
-    ...
-in ...
-		\end{lstlisting}
-
-		\lstLisp[\texttt{let} in Lisp]
-		\begin{lstlisting}
-(let ((v1 exp) (v2 exp)) e1 e2 ... en)
-		\end{lstlisting}
-
-		Bei obigem Beispiel ist en die Ausgabe bzw. das Ergebnis des Gesamtausdrucks.\\
-
-		Variableneigenschaften in Lisp, Anm.: Hier fehlen die Live-Demos aus der Vorlesung.\\
-
-		\begin{tabular}{rlll}
-			& \textbf{Scope}	& \textbf{Extent} &  \\
-		a	& lexical		& indefinite	& closures \\
-		b	& indefinite	& dynamic		& special \\
-		\end{tabular}$\;$\\
-
-		Variablen festlegen in verschiedenen Sprachen:
-		\begin{verbatim}
-a := 150     Pascal
-a = 150;     C
-(setq a 150) Lisp
-		\end{verbatim}
-
-		\lstLisp[Spezialvariablen]
-		\begin{lstlisting}
-(declaim (special b))
-		\end{lstlisting}
-
-		Solche Spezialvariablen haben einen Stack von Werten, auf den beim Betreten von Scopes die Werte abgelegt werden.
-
-		\lstHaskell[Anonyme Funktion]
-	\begin{lstlisting}
-\x -> x + x
-		\end{lstlisting}
-
-		\lstLisp[Anonyme Funktion]
-		\begin{lstlisting}
-(lambda (x) (+ x x))
-		\end{lstlisting}
-
-		\begin{figure}[H]
-			\caption{Objekt-Aufbau in der ooP}
-			\includegraphics[width=\textwidth]{workfiles/v11_2}
-		\end{figure}
-
-		\begin{figure}[H]
-			\centering
-			\caption{Doppelbelegung von \texttt{max} (Live-Demo)}
-			\begin{tikzpicture}
-				\node [draw, rectangle] {\texttt{max}}
-					child { node {\emph{value}}}
-					child { node {\emph{function}}};
-			\end{tikzpicture}
-		\end{figure}
-
-		Closures sind Grundlage für die ooP.
-
-		\begin{figure}[H]
-			\begin{tikzpicture}
-				\node (1) at (0,0) {OOP};
-				\node (2) at (0,-1) {Closure};
-				\path (1) edge [->,thick] (2);
-			\end{tikzpicture}
-		\end{figure}
-
-	% subsection closures (end)
-
-%%%
-%%% end V11
-%%%

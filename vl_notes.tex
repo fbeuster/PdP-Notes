@@ -34,9 +34,18 @@
 \usepackage{enumerate}
 \usepackage{xifthen}
 
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
 \title{Paradigmen der Programmierung}
-\subtitle{Vorlesungsnotizen bis 25.06.2014}
-\author{Felix Beuster}
+\subtitle{Vorlesungsnotizen bis 09.07.2014}
+\author{Felix Beuster\\Christian Delfs}
 \date{}
 
 \begin{document}
@@ -50,15 +59,24 @@
 \label{sec:vorwort}
 \addcontentsline{toc}{section}{Vorwort}
 
-	Hierbei handelt es sich um digitalisierten Mitschriften aus der Vorlesung Paradigmen der
+	Hierbei handelt es sich um digitalisierte Mitschriften aus der Vorlesung Paradigmen der
 	Programmierung. Diese Sammlung erhebt keinen Anspruch auf Vollständigkeit, Korrekturhinweise
 	und Erweiterungsvorschläge seitens der Kommilitonen sind gerne gesehen.
+
+	\lstCode[Referenz einiger Sonderzeichen]
+	\begin{lstlisting}
+.   Punkt
+,   Komma
+'   Hochkomma (einzeln)
+"   Hochkomma (doppelt)
+`   Backqoute
+	\end{lstlisting}
 
 % section vorwort (end)
 
 \section{Shellprogrammierung} % (fold)
 \label{sec:shellprogrammierung}
-	\input{inc/shellProg_shellsTools} % 1. VL
+	\input{inc/shellProg_shellsTools}	% 1. VL
 	\include{inc/shellProg_processGlue} % 2.-3. VL
 	\include{inc/shellProg_pipes} 		% 4.-5. VL
 	\include{inc/shellProg_bash} 		% 5.-6. VL
@@ -73,7 +91,9 @@
 \clearpage
 \section{Lisp} % (fold)
 \label{sec:lisp}
-	\input{inc/lisp} % 10.-11. VL
+	\input{inc/lisp_intro}		% 10. VL
+	\include{inc/lisp_extended}	% 11.-13. VL
+
 
 % section lisp (end)
 
