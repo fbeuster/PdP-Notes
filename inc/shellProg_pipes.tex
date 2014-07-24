@@ -28,9 +28,11 @@ cmd2 < filename
 		\label{ssub:vorteil_pipes}
 		
 			\begin{itemize}
-				\item sequentielle Abarbeitung möglich
+				\item sequentielle Abarbeitung möglich\\
+						(gesamter Datenbestand muss nicht komplett gehalten werden)
 				\item 1 arbeitet, 2 muss nicht warten
-				\item Prozesssynchronisation
+				\item Prozesssynchronisation\\
+						(langsamster Prozess bestimmt die Geschwindigkeit)
 			\end{itemize}
 
 		% subsubsection vorteil_pipes (end)
@@ -42,7 +44,7 @@ cmd2 < filename
 			\begin{lstlisting}
 head.(map f3).(map f2).(map f1)[1..]
 			\end{lstlisting}
-
+(Gibt 1 aus (ohne die gesamten natürlichen Zahlen durchlaufen zu müssen)
 		% subsubsection analog_in_haskell (end)
 
 		\subsection*{Interessantes Pipe-Verhalten} % (fold)
@@ -92,7 +94,7 @@ cut -d " " -f 2 < foo| tr [:lower:] [:upper:]
 				\begin{itemize}
 					\item Pufferung im Prozess
 					\item wenn FD aus Terminal $\rightarrow$ Zeilenpufferung
-					\item wenn FD kein Terminal $\rightarrow$ Blockpufferung
+					\item wenn FD kein Terminal $\rightarrow$ Blockpufferung (Pipe)
 				\end{itemize}
 
 				Lösung daher: Nutzung eines Pseudo-Terminals
