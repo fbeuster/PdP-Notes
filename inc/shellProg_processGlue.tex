@@ -3,7 +3,8 @@
 	\subsection{Prozesspipelines und Glue Languages} % (fold)
 	\label{sub:prozesspipelines_und_glue_languages}
 	
-	Unix verfolgt das Konzept: \textbf{Alles ist eine Datei}
+	Unix verfolgt das Konzept: \textbf{Alles ist eine Datei}\\
+	(Der Datei ist es egal, wo gelesen wird; keine Libraries $\rightarrow$ Geräte unabhängig)
 	\begin{flalign*}
 		 \left.\begin{array}{c}
 		 	\text{.c}\\
@@ -16,17 +17,19 @@
 		\item auch Kompilat braucht keine unterschiedlichen Prozeduren
 		\item kein gerätespezifischer Code
 	\end{itemize}
+	Unix kommuniziert (ohne Treiber) mittels Byteströmen mit den Devices.\\
 	Dateiunabhängig ist damit möglich
 	\lstCcode[Lies aus Datei 1 1 Byte und speicher es in c]
 	\begin{lstlisting}
 read(1,1,&c);
 	\end{lstlisting}
-
+RPC = Remote Procedures Call
 	\begin{figure}[hb]
 		\caption{Schnittstellen auf System-Ebene zu Abstraktion}
 		\includegraphics[width=\textwidth]{workfiles/v2_1}
 	\end{figure}
-
+Warum gibt es dann Treiber für genormte Geräte?\\
+Weil es einfacher für den Programmierer ist!
 	\newpage
 
 	\begin{figure}[h]
@@ -105,6 +108,7 @@ int open(path)
 			\item verschiedene Prozesse können nicht gleichzeitig auf das 1. Byte zugreifen
 			\item mehrere Prozesse können auf alles weitere häppchenweise zugreifen
 			\item es kommt zu einem Kontextwechsel (?)
+			\item 1. Argument: Filehandler Nummer (Index auf FD)
 		\end{itemize}
 	
 	% subsubsection systemweiter_dateiaufruf (end)
@@ -170,6 +174,8 @@ exec doit
 			\caption{Ablauf von Fork und Exec}
 			\includegraphics[width=\textwidth]{workfiles/v2_4}
 		\end{figure}
+		
+		Exec ersetzt shell' durch doit, ohne den Dateiort und ähnliche Informationen zu verlieren.
 
 	% subsubsection fork_am_beispiel_von_butfirst_sh (end)
 
@@ -287,7 +293,10 @@ getInp() {
 			\texttt{>> file}	&	an \texttt{file} anfügen	\\
 			\texttt{< file}		&	aus \texttt{file} lesen	\\
 			\texttt{1 > file}	&	File Descriptor 1 leitet in \texttt{file}	\\
-			\texttt{2 >\& 1}	&	FD2 leitet in selbes Ziel wie FD 1	\\
+			\texttt{2 >\& 1}	&	Setzte Output von FD2 auf FD 1	\\
+			\texttt{2 <\& 1}	&	Setzte Input von FD2 auf FD 1	\\
+			\texttt{2 >\&}	&	Schließe Output von FD2\\
+			\texttt{2 <\&}	&	Schließe Input von FD2\\
 			\texttt{FD0}		&	Standardinput	\\
 			\texttt{FD1}		&	Standardoutput	\\
 			\texttt{FD2}		&	Standarfehlerausgabe	\\

@@ -5,7 +5,8 @@
 	\subsection{Polymorphismus in Haskell} % (fold)
 	\label{sub:polymorphismus_in_haskell}
 		\begin{itemize}
-			\item parametrischen über Typvariablen
+			\item parametrischen über Typvariablen\\
+			(Im Tysp dürfen Typfedinitionen auftauchen)
 			\item ad-hoc übr Typklassen
 		\end{itemize}
 
@@ -61,11 +62,16 @@ p >>= f = \w -> let (a,w') = p w
                     (b,w'') = w'
                 in (b,w'')
 		\end{lstlisting}
+				Haskell setzt um:
 		\lstHaskell
 		\begin{lstlisting}
 do {a; b} == do a
                 b
+do{a}=a
+do{a;as}=a>>(do{as})
+do{v<-a,as}=a>>=(\v->do{as})
 		\end{lstlisting}
+
 		\lstHaskell
 		\begin{lstlisting}
 {f;g;}h; != f;{g;h;}
@@ -149,12 +155,17 @@ MS (\s -> runMState (MS (\s -> (s,s))) s)
 MS (\s -> (\s -> (s,s)) s)
 MS (\s -> (s,s))
 		\end{lstlisting}
+		get $>>=$put
+		\begin{itemize}
+			\item nimmt den aktuellen Zustand raus als Ergebnis
+			\item fügt den Zustand als Argument in den Input
+			\item Verändert den Zustand nicht und liefert ihn als Ergebnis
+		\end{itemize}
 		
 		\begin{figure}[ht]
 			\caption{Realisierung Verkettung äußerer mit innerer Monade}
 			\includegraphics[width=\textwidth]{workfiles/v8_1}
 		\end{figure}
-
 	% subsection weltveraenderung (end)
 
 	%%%
@@ -242,7 +253,7 @@ type IIO a = (Int,World) -> ((Int,World),a)
 return :: a -> IO a
 return i = \w -> (w,i)
 			\end{lstlisting}
-		
+		(ermöglicht es Nutzern von return, die Welt w weg zu lassen)
 		% subsubsection return (end)
 
 		\subsubsection{Inkrement, neu} % (fold)

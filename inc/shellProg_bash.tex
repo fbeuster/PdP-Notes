@@ -3,7 +3,7 @@
 
 		\lstBash[Rückgabewert des letzten Programms]
 		\begin{lstlisting}
-$?
+echo $?
 		\end{lstlisting}
 		\lstBash[direkte Ausgabe bis zum nächsten \texttt{eof}]
 		\begin{lstlisting}
@@ -109,7 +109,7 @@ $0 $1 $2 ...
 					(m-1-6) edge (m-2-5)
 					(m-1-7) edge (m-2-6);
 			\end{tikzpicture}
-
+(\$0 - Name des Programms
 		% subsubsection funktionen_und_argumente (end)
 
 		\subsubsection*{Textverarbeitung} % (fold)
@@ -215,15 +215,18 @@ pattern {action} # nach unten geprueft
 				x_{cooked}\sim N\left(\mu=0,\sigma=1\right)
 			\end{flalign*}
 			Dafür werden folgende Werte erfasst
+
 			\begin{flalign*}
+				(Abweichung / Summe aller Werte)\\
 				\text{\texttt{x[i]}}=\sum_{j=1}^nx_j\\
+				(Varianz / Summe der Quadrate)\\
 				\text{\texttt{xx[i]}}=\sum_{j=1}^nx_j^2
 			\end{flalign*}
-			Wie realisiert \texttt{swk} Felder? Balancierte Bäume.\\
+			Wie realisiert \texttt{awk} Felder? Balancierte Bäume.\\
 			\texttt{x[i]} - i ist Index des Baumblattes\\
 			\texttt{x[i,j]} - i\^{}@j ist Index des Blattes\\
 
-			Vorsicht: Trennzeichen sollte nicht in Indexstring vorkommen.\\
+			Vorsicht: Trennzeichen sollte nicht in Indexstring vorkommen. Dieser wird benutzt um den Wunsch nach mehrdimensionalen Feldern zu erfüllen: anstelle von i=7 und j=115 wird der String 7\^{}@115 als Schlüssel benutzt.\\
 
 			\lstShell[Anwendung von \texttt{prog} auf übergebene Dateien]
 			\begin{lstlisting}
@@ -233,6 +236,7 @@ $ awk -f prog file1 file2
 			zwei Zähler:\\
 			NR - aktuelle Zeilennummer insgesamt\\
 			FNR - aktuelle Zeilennummer in einer Datei\\
+			NF - Anzahl an Feldern des aktuellen Satzes
 
 			Formeln für \texttt{rescale.awk}
 			\begin{flalign*}
